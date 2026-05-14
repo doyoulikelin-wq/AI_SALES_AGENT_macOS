@@ -15,6 +15,7 @@ tar \
   --exclude='./data' \
   --exclude='./logs' \
   --exclude='./.env' \
+  --exclude='./.git' \
   --exclude='./.DS_Store' \
   --exclude='./release' \
   --exclude='./deploy/macos/run-agent.local.sh' \

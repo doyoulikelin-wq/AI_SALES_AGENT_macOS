@@ -1,0 +1,820 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>大健康 AI 销售 Agent 本地配置</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --panel-2: #eef4f3;
+      --text: #17211f;
+      --muted: #66716f;
+      --line: #d9e1df;
+      --primary: #16675d;
+      --primary-2: #0f4c45;
+      --accent: #b96b2c;
+      --danger: #a93636;
+      --ok: #177245;
+      --shadow: 0 18px 44px rgba(23, 33, 31, 0.08);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: #133b37;
+      color: #fff;
+      padding: 28px 24px;
+      border-bottom: 4px solid #c4894b;
+    }
+
+    .header-inner {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(24px, 3vw, 36px);
+      line-height: 1.16;
+      letter-spacing: 0;
+    }
+
+    header p {
+      margin: 0;
+      color: #d9e8e4;
+      max-width: 760px;
+      line-height: 1.6;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 8px;
+      color: #f7fbfa;
+      background: rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+      font-size: 14px;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #f0b35b;
+    }
+
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      align-items: center;
+    }
+
+    button,
+    .file-label {
+      min-height: 40px;
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      padding: 9px 14px;
+      font-weight: 650;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1.2;
+    }
+
+    button.secondary,
+    .file-label.secondary {
+      background: #fff;
+      color: var(--primary);
+      border-color: #acc4c0;
+    }
+
+    button.warning {
+      background: #fff7ef;
+      color: #8c4c19;
+      border-color: #d7a66f;
+    }
+
+    button:hover,
+    .file-label:hover {
+      filter: brightness(0.96);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+    }
+
+    section,
+    aside {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    section {
+      padding: 18px;
+    }
+
+    aside {
+      padding: 16px;
+      position: sticky;
+      top: 16px;
+    }
+
+    h2,
+    h3 {
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 14px;
+    }
+
+    h3 {
+      font-size: 15px;
+      margin-bottom: 8px;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: #27312f;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid #cbd7d4;
+      background: #fff;
+      color: var(--text);
+      border-radius: 8px;
+      padding: 10px 11px;
+      font: inherit;
+      min-height: 40px;
+    }
+
+    textarea {
+      min-height: 96px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 3px solid rgba(22, 103, 93, 0.16);
+      border-color: var(--primary);
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .checkbox-row {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      padding: 10px 11px;
+      border: 1px solid #dce5e2;
+      border-radius: 8px;
+      background: #fbfdfc;
+      min-height: 42px;
+    }
+
+    .checkbox-row input {
+      width: auto;
+      min-height: auto;
+      margin-top: 3px;
+    }
+
+    .preview-box {
+      border: 1px solid #d5dfdc;
+      background: #fbfcfc;
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 180px;
+      max-height: 520px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    .notice {
+      border: 1px solid #d8bb8d;
+      background: #fff8ed;
+      color: #694513;
+      border-radius: 8px;
+      padding: 11px 12px;
+      line-height: 1.55;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .result {
+      margin-top: 12px;
+      border-radius: 8px;
+      padding: 10px 12px;
+      line-height: 1.5;
+      display: none;
+      font-size: 13px;
+    }
+
+    .result.ok {
+      display: block;
+      border: 1px solid rgba(23, 114, 69, 0.3);
+      background: #effaf4;
+      color: var(--ok);
+    }
+
+    .result.err {
+      display: block;
+      border: 1px solid rgba(169, 54, 54, 0.28);
+      background: #fff2f1;
+      color: var(--danger);
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .link-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .link-list a {
+      color: var(--primary-2);
+      text-decoration: none;
+      border: 1px solid #d6e0dd;
+      border-radius: 8px;
+      padding: 9px 10px;
+      background: #fbfdfc;
+      overflow-wrap: anywhere;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--line);
+      margin: 14px 0;
+    }
+
+    @media (max-width: 920px) {
+      .header-inner,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      header,
+      main {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .fields,
+      .mini-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar button,
+      .toolbar .file-label {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div>
+        <h1>大健康 AI 销售 Agent 本地配置</h1>
+        <p>配置运行时、LLM 接口、销售渠道、审批规则和转人工策略。页面可直接在 Mac mini 本地浏览器打开，配置可保存到本机并导出为 JSON。</p>
+      </div>
+      <div class="status-pill" title="此页面不会自动上传配置">
+        <span class="status-dot"></span>
+        本地静态页
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar" aria-label="配置操作">
+      <button type="button" id="saveBtn">保存到本机浏览器</button>
+      <button type="button" class="secondary" id="exportBtn">导出 JSON</button>
+      <label class="file-label secondary" for="importFile">导入 JSON</label>
+      <input type="file" id="importFile" accept="application/json,.json">
+      <button type="button" class="secondary" id="testBtn">测试 API</button>
+      <button type="button" class="warning" id="resetBtn">恢复默认值</button>
+    </div>
+
+    <div class="grid">
+      <form id="configForm">
+        <section>
+          <h2>运行时与模型</h2>
+          <div class="fields">
+            <div class="field">
+              <label for="runtime">Agent Runtime</label>
+              <select id="runtime" name="runtime">
+                <option value="hermes">Hermes</option>
+                <option value="openclaw">OpenClaw</option>
+                <option value="openai-compatible">OpenAI-compatible Gateway</option>
+                <option value="custom">自定义</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="environment">环境</label>
+              <select id="environment" name="environment">
+                <option value="poc">POC 测试</option>
+                <option value="staging">试运行</option>
+                <option value="production">正式环境</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="agentBaseUrl">Agent Gateway URL</label>
+              <input id="agentBaseUrl" name="agentBaseUrl" placeholder="http://localhost:8787" autocomplete="off">
+              <div class="hint">本地 Agent 服务地址。POC 阶段可先留空，只导出配置。</div>
+            </div>
+            <div class="field">
+              <label for="llmBaseUrl">LLM API Base URL</label>
+              <input id="llmBaseUrl" name="llmBaseUrl" placeholder="https://api.example.com/v1" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="model">模型</label>
+              <input id="model" name="model" placeholder="gpt-4.1-mini / qwen-plus / local-model" autocomplete="off">
+            </div>
+            <div class="field full">
+              <label for="apiKey">API Key</label>
+              <input id="apiKey" name="apiKey" type="password" placeholder="sk-..." autocomplete="off">
+              <div class="hint">此页面会保存到当前浏览器 localStorage。正式上线请迁移到 Keychain、Docker secret 或服务端 .env。</div>
+            </div>
+            <div class="field">
+              <label for="temperature">Temperature</label>
+              <input id="temperature" name="temperature" type="number" min="0" max="1" step="0.1">
+            </div>
+            <div class="field">
+              <label for="maxTokens">Max Tokens</label>
+              <input id="maxTokens" name="maxTokens" type="number" min="256" step="128">
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>销售渠道</h2>
+          <div class="fields">
+            <div class="field full">
+              <label for="siteUrl">独立站 URL</label>
+              <input id="siteUrl" name="siteUrl" placeholder="https://herbaloem.com/" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="whatsapp">WhatsApp</label>
+              <input id="whatsapp" name="whatsapp" placeholder="+1 000 000 0000" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="sales@example.com" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="telegram">Telegram</label>
+              <input id="telegram" name="telegram" placeholder="https://t.me/your_sales" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="telegramBotToken">Telegram Bot Token</label>
+              <input id="telegramBotToken" name="telegramBotToken" type="password" placeholder="BotFather token" autocomplete="off">
+              <div class="hint">正式环境请放到 .env 的 TELEGRAM_BOT_TOKEN，不要长期保存在浏览器。</div>
+            </div>
+            <div class="field">
+              <label for="telegramOperatorChatId">Operator Chat ID</label>
+              <input id="telegramOperatorChatId" name="telegramOperatorChatId" placeholder="发送 /whoami 后填写" autocomplete="off">
+            </div>
+            <div class="field full">
+              <label class="checkbox-row" for="customerTelegramEnabled">
+                <input id="customerTelegramEnabled" name="customerTelegramEnabled" type="checkbox">
+                <span>允许客户直接通过 Telegram Bot 进入 AI 接待流程</span>
+              </label>
+            </div>
+            <div class="field">
+              <label for="alibabaMode">阿里巴巴国际站模式</label>
+              <select id="alibabaMode" name="alibabaMode">
+                <option value="assistant-only">话术建议 + 人工发送</option>
+                <option value="official-api">官方接口接入</option>
+                <option value="disabled">暂不接入</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>审批与价格控制</h2>
+          <div class="fields">
+            <div class="field full">
+              <label class="checkbox-row" for="requirePriceApproval">
+                <input id="requirePriceApproval" name="requirePriceApproval" type="checkbox">
+                <span>所有最终价格、折扣、付款条款必须先审批，再发给客户</span>
+              </label>
+            </div>
+            <div class="field">
+              <label for="currency">默认币种</label>
+              <select id="currency" name="currency">
+                <option value="USD">USD</option>
+                <option value="EUR">EUR</option>
+                <option value="CNY">CNY</option>
+                <option value="AED">AED</option>
+                <option value="JPY">JPY</option>
+                <option value="KRW">KRW</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="publicDiscountLimit">AI 可自行承诺折扣上限</label>
+              <input id="publicDiscountLimit" name="publicDiscountLimit" type="number" min="0" max="100" step="0.5">
+              <div class="hint">建议填 0。填 0 表示 AI 不自行承诺任何折扣。</div>
+            </div>
+            <div class="field">
+              <label for="approvalContact">审批人/审批群</label>
+              <input id="approvalContact" name="approvalContact" placeholder="manager@example.com / webhook URL" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="approvalSlaHours">审批 SLA 小时</label>
+              <input id="approvalSlaHours" name="approvalSlaHours" type="number" min="1" step="1">
+            </div>
+            <div class="field full">
+              <label for="pricingPolicy">价格策略说明</label>
+              <textarea id="pricingPolicy" name="pricingPolicy" placeholder="例如：新客户只收集报价要素；老客户按历史价生成审批单；低于底价必须转人工。"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>语言、话术与转人工</h2>
+          <div class="fields">
+            <div class="field">
+              <label for="primaryLanguage">默认语言</label>
+              <select id="primaryLanguage" name="primaryLanguage">
+                <option value="en">English</option>
+                <option value="zh-CN">简体中文</option>
+                <option value="ja">日本語</option>
+                <option value="ko">한국어</option>
+                <option value="ar">العربية</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="supportedLanguages">支持语言</label>
+              <input id="supportedLanguages" name="supportedLanguages" placeholder="en,ja,ko,ar,es,fr,de" autocomplete="off">
+            </div>
+            <div class="field full">
+              <label for="handoffRules">强制转人工规则</label>
+              <textarea id="handoffRules" name="handoffRules"></textarea>
+            </div>
+            <div class="field full">
+              <label for="salesScript">基础销售话术</label>
+              <textarea id="salesScript" name="salesScript"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>知识库与订单跟进</h2>
+          <div class="fields">
+            <div class="field full">
+              <label for="knowledgePaths">本地物料路径或索引地址</label>
+              <textarea id="knowledgePaths" name="knowledgePaths" placeholder="/Users/shared/herbaloem/materials\nhttp://localhost:6333/qdrant"></textarea>
+            </div>
+            <div class="field">
+              <label for="crmUrl">CRM / 客户表 URL</label>
+              <input id="crmUrl" name="crmUrl" placeholder="http://localhost:8787/customers" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="orderStatusUrl">订单进度接口 URL</label>
+              <input id="orderStatusUrl" name="orderStatusUrl" placeholder="http://localhost:8787/orders" autocomplete="off">
+            </div>
+            <div class="field full">
+              <label for="followupPolicy">跟进策略</label>
+              <textarea id="followupPolicy" name="followupPolicy"></textarea>
+            </div>
+          </div>
+        </section>
+      </form>
+
+      <aside>
+        <div class="notice">API Key 在本页仅用于初始化和测试。正式运行时请放入服务端密钥库，不要把导出的 JSON 发给无权限人员。</div>
+        <h2>配置预览</h2>
+        <div class="preview-box" id="preview" aria-live="polite"></div>
+        <div id="result" class="result"></div>
+        <div class="divider"></div>
+        <h3>快速链接</h3>
+        <div class="link-list" id="quickLinks"></div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const storageKey = "healthSalesAgentConfig.v1";
+
+    const defaults = {
+      runtime: "hermes",
+      environment: "poc",
+      agentBaseUrl: "http://localhost:8787",
+      llmBaseUrl: "https://api.example.com/v1",
+      model: "gpt-4.1-mini",
+      apiKey: "",
+      temperature: 0.3,
+      maxTokens: 1200,
+      siteUrl: "https://herbaloem.com/",
+      whatsapp: "",
+      email: "",
+      telegram: "",
+      telegramBotToken: "",
+      telegramOperatorChatId: "",
+      customerTelegramEnabled: true,
+      alibabaMode: "assistant-only",
+      requirePriceApproval: true,
+      currency: "USD",
+      publicDiscountLimit: 0,
+      approvalContact: "",
+      approvalSlaHours: 4,
+      pricingPolicy: "AI 只收集报价要素并生成审批单；最终价格、折扣、付款条款必须由负责人审批后发送。",
+      primaryLanguage: "en",
+      supportedLanguages: "en,ja,ko,ar,es,fr,de",
+      handoffRules: [
+        "客户要求最终价格、折扣、账期或特殊付款条款",
+        "客户要求低于底价、独家代理、赔偿、退款",
+        "涉及疾病治疗、医学功效、法规承诺或质量投诉",
+        "合同条款修改、非标包装、非标配方或特殊认证",
+        "知识库没有可靠答案或资料冲突"
+      ].join("\n"),
+      salesScript: [
+        "先识别客户语言并使用同语言回复。",
+        "优先收集产品、数量、目的国、用途、包装、交期和联系方式。",
+        "MOQ 可根据审核资料回答；价格只生成审批请求，不擅自承诺。",
+        "引导客户留下 WhatsApp、Email 或 Telegram，便于发送规格、证书和 PI。",
+        "所有健康功效必须基于已审核资料，不做治疗或治愈承诺。"
+      ].join("\n"),
+      knowledgePaths: "/Users/shared/herbaloem/materials",
+      crmUrl: "http://localhost:8787/customers",
+      orderStatusUrl: "http://localhost:8787/orders",
+      followupPolicy: [
+        "询盘后 24 小时未回复，发送一次简短跟进。",
+        "报价审批通过后，发送有效期和下一步资料。",
+        "客户确认订单后，同步定金、生产、质检、尾款、发货节点。",
+        "发货前提醒付尾款；尾款到账后发送 tracking number。",
+        "客户收货后 3-7 天询问反馈并记录复购机会。"
+      ].join("\n")
+    };
+
+    const form = document.getElementById("configForm");
+    const preview = document.getElementById("preview");
+    const result = document.getElementById("result");
+    const quickLinks = document.getElementById("quickLinks");
+
+    function getFields() {
+      return Array.from(form.querySelectorAll("input, select, textarea"));
+    }
+
+    function readConfig() {
+      const config = {};
+      for (const field of getFields()) {
+        if (field.type === "checkbox") {
+          config[field.name] = field.checked;
+        } else if (field.type === "number") {
+          config[field.name] = field.value === "" ? null : Number(field.value);
+        } else {
+          config[field.name] = field.value.trim();
+        }
+      }
+      config.updatedAt = new Date().toISOString();
+      config.securityNote = "Do not use browser localStorage as a production secret store.";
+      return config;
+    }
+
+    function safePreview(config) {
+      return {
+        ...config,
+        apiKey: config.apiKey ? `${config.apiKey.slice(0, 5)}...${config.apiKey.slice(-4)}` : "",
+        telegramBotToken: config.telegramBotToken ? `${config.telegramBotToken.slice(0, 5)}...${config.telegramBotToken.slice(-4)}` : ""
+      };
+    }
+
+    function writeConfig(config) {
+      for (const field of getFields()) {
+        const value = config[field.name];
+        if (typeof value === "undefined") continue;
+        if (field.type === "checkbox") {
+          field.checked = Boolean(value);
+        } else {
+          field.value = value;
+        }
+      }
+      updatePreview();
+    }
+
+    function updatePreview() {
+      const config = readConfig();
+      preview.textContent = JSON.stringify(safePreview(config), null, 2);
+      renderQuickLinks(config);
+    }
+
+    function showResult(message, type = "ok") {
+      result.className = `result ${type}`;
+      result.textContent = message;
+    }
+
+    function saveLocal() {
+      localStorage.setItem(storageKey, JSON.stringify(readConfig()));
+      showResult("已保存到当前浏览器。", "ok");
+    }
+
+    function loadLocal() {
+      const saved = localStorage.getItem(storageKey);
+      if (!saved) return defaults;
+      try {
+        return { ...defaults, ...JSON.parse(saved) };
+      } catch (error) {
+        return defaults;
+      }
+    }
+
+    function exportJson() {
+      const config = readConfig();
+      const blob = new Blob([JSON.stringify(config, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `health-sales-agent-config-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      showResult("JSON 配置已导出。请妥善保管，里面可能包含 API Key。", "ok");
+    }
+
+    function importJson(file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const config = { ...defaults, ...JSON.parse(reader.result) };
+          writeConfig(config);
+          saveLocal();
+          showResult("已导入 JSON 并保存到当前浏览器。", "ok");
+        } catch (error) {
+          showResult(`导入失败：${error.message}`, "err");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetDefaults() {
+      writeConfig(defaults);
+      localStorage.removeItem(storageKey);
+      showResult("已恢复默认配置。", "ok");
+    }
+
+    async function testApi() {
+      const config = readConfig();
+      if (!config.llmBaseUrl || !config.model || !config.apiKey) {
+        showResult("请先填写 LLM API Base URL、模型和 API Key。", "err");
+        return;
+      }
+
+      const endpoint = `${config.llmBaseUrl.replace(/\/$/, "")}/chat/completions`;
+      showResult("正在测试接口。若接口不允许浏览器 CORS，请改由本地 Agent Gateway 测试。", "ok");
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${config.apiKey}`
+          },
+          body: JSON.stringify({
+            model: config.model,
+            temperature: Number(config.temperature ?? 0.3),
+            max_tokens: 128,
+            messages: [
+              { role: "system", content: "You are a concise API connectivity tester." },
+              { role: "user", content: "Reply with OK." }
+            ]
+          })
+        });
+
+        const text = await response.text();
+        if (!response.ok) {
+          throw new Error(`${response.status} ${response.statusText}: ${text.slice(0, 240)}`);
+        }
+        showResult(`接口测试成功：${text.slice(0, 240)}`, "ok");
+      } catch (error) {
+        showResult(`接口测试失败：${error.message}`, "err");
+      }
+    }
+
+    function renderQuickLinks(config) {
+      quickLinks.innerHTML = "";
+      const links = [];
+      if (config.siteUrl) links.push(["独立站", config.siteUrl]);
+      if (config.email) links.push(["发送 Email", `mailto:${config.email}`]);
+      if (config.telegram) links.push(["Telegram", normalizeTelegram(config.telegram)]);
+      if (config.whatsapp) links.push(["WhatsApp", normalizeWhatsapp(config.whatsapp)]);
+
+      for (const [label, href] of links) {
+        const link = document.createElement("a");
+        link.href = href;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = label;
+        quickLinks.appendChild(link);
+      }
+    }
+
+    function normalizeWhatsapp(value) {
+      const digits = value.replace(/[^0-9]/g, "");
+      return digits ? `https://wa.me/${digits}` : value;
+    }
+
+    function normalizeTelegram(value) {
+      if (value.startsWith("http://") || value.startsWith("https://")) return value;
+      return `https://t.me/${value.replace(/^@/, "")}`;
+    }
+
+    form.addEventListener("input", updatePreview);
+    document.getElementById("saveBtn").addEventListener("click", saveLocal);
+    document.getElementById("exportBtn").addEventListener("click", exportJson);
+    document.getElementById("testBtn").addEventListener("click", testApi);
+    document.getElementById("resetBtn").addEventListener("click", resetDefaults);
+    document.getElementById("importFile").addEventListener("change", (event) => {
+      const [file] = event.target.files;
+      if (file) importJson(file);
+      event.target.value = "";
+    });
+
+    writeConfig(loadLocal());
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+\usepackage{xcolor}
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{etoolbox}
+\usepackage{fvextra}
+\usepackage[most]{tcolorbox}
+\usepackage{tocloft}
+
+\definecolor{BrandGreen}{HTML}{0F766E}
+\definecolor{BrandDark}{HTML}{134E4A}
+\definecolor{BrandSoft}{HTML}{ECFDF5}
+\definecolor{BrandGold}{HTML}{B45309}
+\definecolor{TextDark}{HTML}{111827}
+\definecolor{TextMuted}{HTML}{4B5563}
+\definecolor{LineGray}{HTML}{D1D5DB}
+\definecolor{CodeBg}{HTML}{F8FAFC}
+
+\setmainfont{PingFang SC}
+\setsansfont{PingFang SC}
+\setmonofont{Menlo}[Scale=0.88]
+\setCJKmainfont{PingFang SC}
+\setCJKsansfont{PingFang SC}
+\setCJKmonofont{PingFang SC}
+
+\geometry{a4paper, top=18mm, bottom=20mm, left=18mm, right=18mm, headheight=14pt}
+\setstretch{1.16}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt minus 1pt}
+\setcounter{secnumdepth}{0}
+\setcounter{tocdepth}{2}
+\renewcommand{\contentsname}{目录}
+
+\titleformat{\section}
+  {\Large\bfseries\color{BrandGreen}}
+  {}{0pt}{}
+  [\vspace{2pt}{\color{BrandGreen!30}\titlerule[0.6pt]}]
+\titleformat{\subsection}
+  {\large\bfseries\color{BrandDark}}
+  {}{0pt}{}
+\titleformat{\subsubsection}
+  {\normalsize\bfseries\color{TextDark}}
+  {}{0pt}{}
+\titlespacing*{\section}{0pt}{20pt}{9pt}
+\titlespacing*{\subsection}{0pt}{15pt}{6pt}
+\titlespacing*{\subsubsection}{0pt}{12pt}{4pt}
+
+\renewcommand{\cfttoctitlefont}{\Large\bfseries\color{BrandGreen}}
+\renewcommand{\cftsecfont}{\bfseries\color{TextDark}}
+\renewcommand{\cftsecpagefont}{\bfseries\color{TextDark}}
+\renewcommand{\cftsubsecfont}{\color{TextMuted}}
+\renewcommand{\cftsubsecpagefont}{\color{TextMuted}}
+\renewcommand{\cftdotsep}{2.6}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{TextMuted}大健康 AI 销售 Agent}
+\fancyhead[R]{\small\color{TextMuted}用户使用说明书}
+\fancyfoot[C]{\small\color{TextMuted}\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\setlist[itemize]{itemsep=2pt, topsep=4pt, leftmargin=1.6em}
+\setlist[enumerate]{itemsep=2pt, topsep=4pt, leftmargin=1.8em}
+
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.24}
+\AtBeginEnvironment{longtable}{\small}
+\AtEndEnvironment{longtable}{\normalsize}
+
+\fvset{breaklines=true, breakanywhere=true, fontsize=\small, frame=single, rulecolor=\color{LineGray}, framesep=3mm}
+\colorlet{shadecolor}{CodeBg}
+
+\renewenvironment{Shaded}
+  {\begin{tcolorbox}[breakable, colback=CodeBg, colframe=LineGray, boxrule=0.4pt, arc=1.5mm, left=2mm, right=2mm, top=1mm, bottom=1mm]}
+  {\end{tcolorbox}}
+
+\renewenvironment{quote}
+  {\begin{tcolorbox}[breakable, colback=BrandSoft, colframe=BrandGreen!38, boxrule=0.5pt, arc=2mm, left=3mm, right=3mm, top=2mm, bottom=2mm]}
+  {\end{tcolorbox}}
+
+\AtBeginDocument{%
+  \color{TextDark}%
+  \hypersetup{pdftitle={大健康 AI 销售 Agent 用户使用说明书}, pdfauthor={Health AI Sales Agent}, colorlinks=true, linkcolor=BrandGreen, urlcolor=BrandGreen, citecolor=BrandGreen}%
+}

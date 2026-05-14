@@ -1,0 +1,35 @@
+{
+  "name": "health-ai-sales-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck",
+    "package:macos": "zsh deploy/macos/package.sh",
+    "control:macos": "zsh deploy/macos/control.sh",
+    "configure:macos": "zsh deploy/macos/configure.sh",
+    "install:macos": "zsh deploy/macos/install.sh",
+    "status:macos": "zsh deploy/macos/status.sh",
+    "stop:macos": "zsh deploy/macos/stop.sh",
+    "uninstall:macos": "zsh deploy/macos/uninstall.sh"
+  },
+  "dependencies": {
+    "@fastify/cors": "^9.0.1",
+    "dotenv": "^16.4.7",
+    "fastify": "^4.29.0",
+    "telegraf": "^4.16.3",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

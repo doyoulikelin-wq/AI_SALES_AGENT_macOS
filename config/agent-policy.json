@@ -1,0 +1,22 @@
+{
+  "domain": "health export sales",
+  "mustEscalate": [
+    "final price, discount, payment terms, credit terms, or low-price negotiation",
+    "contract changes, exclusivity, refunds, compensation, penalties, or legal terms",
+    "medical treatment claims, disease claims, regulatory guarantees, adverse reactions, or complaints",
+    "custom formula, custom packaging, custom certification, or unsupported document requests",
+    "conflicting or missing knowledge base evidence"
+  ],
+  "allowedWithoutApproval": [
+    "collecting inquiry details",
+    "asking for quantity, destination, packaging, usage, lead time, and contact method",
+    "answering general MOQ only when the approved product material contains it",
+    "sharing approved company profile and channel contact information"
+  ],
+  "privateChannelGoal": ["WhatsApp", "Email", "Telegram"],
+  "healthCompliance": [
+    "Do not diagnose, treat, cure, or prevent disease.",
+    "Do not invent certificates, test results, inventory, shipping time, or regulatory approvals.",
+    "Use only approved materials for ingredients, claims, certificates, and compliance answers."
+  ]
+}
